@@ -10,10 +10,10 @@ import './App.css';
 const byLastname = (a, b) => a.lastname.localeCompare(b.lastname);
 
 
-function App() {
+function App({endpoint_url}) {
   const fetcher = (url: string) => fetch(url).then(res => res.json())
   
-  const { data, error, isLoading } = useSWR<Response>('https://9e06da9a-97cf-4701-adfc-9b9a5713bbb9.mock.pstmn.io/users', fetcher)
+  const { data, error, isLoading } = useSWR<Response>(endpoint_url, fetcher)
   
   if (error) return <div>failed to load</div>
   if (isLoading) return <div>loading...</div>

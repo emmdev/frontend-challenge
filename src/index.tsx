@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <App endpoint_url="https://9e06da9a-97cf-4701-adfc-9b9a5713bbb9.mock.pstmn.io/users" />
   </React.StrictMode>
 );
 
