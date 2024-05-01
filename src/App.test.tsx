@@ -45,7 +45,7 @@ const server = setupServer(
   }),
 )
 
-beforeAll(() => server.listen())
+beforeAll(() => server.listen({onUnhandledRequest: 'bypass'}))
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
@@ -71,7 +71,7 @@ test('loads and displays first 2 users', async () => {
 test('loads users - no email - click first view more - email', async () => {
   render(<App endpoint_url="/users" />)
 
-  const viewmoreElements = await screen.getAllByText(/view more/i)
+  const viewmoreElements = await screen.findAllByText(/view more/i)
   
   expect(screen.queryByText(/nberwick0@liveinternet.ru/i)).not.toBeInTheDocument();
   
@@ -79,3 +79,12 @@ test('loads users - no email - click first view more - email', async () => {
   
   expect(screen.getByText(/nberwick0@liveinternet.ru/i)).toBeInTheDocument();
 })
+
+test('nonexistant endpoint_url - loading error message', async () => {
+  render(<App endpoint_url="/users123" />);
+  const loadingElement = screen.getByText(/loading\.\.\./i);
+  expect(loadingElement).toBeInTheDocument();
+  
+  const failedElement = await screen.findByText(/failed to load/i);
+  expect(failedElement).toBeInTheDocument();
+});
