@@ -23,7 +23,7 @@ function App() {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full mb-8">
         {data && data.data.users
           .toSorted(byLastname)
-          .map((user) => <Card {...user}/>)
+          .map((user) => <Card key={user.id} {...user}/>)
         }
         
       </div>
