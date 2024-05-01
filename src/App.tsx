@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useSWR from 'swr';
 
 import { Card } from './Card'
@@ -7,13 +7,12 @@ import { Response } from './interfaces'
 import './App.css';
 
 
+const fetcher = (url: string) => fetch(url).then(res => res.json())
 const byLastname = (a, b) => a.lastname.localeCompare(b.lastname);
 
-
 function App({endpoint_url}) {
-  const fetcher = (url: string) => fetch(url).then(res => res.json())
-  
-  const { data, error, isLoading } = useSWR<Response>(endpoint_url, fetcher)
+  const [cardsToShow, setCardsToShow] = useState(20)
+  const { data, error, isLoading } = useSWR<Response>(endpoint_url, fetcher, {onSuccess:() => setCardsToShow(-1) })
   
   if (error) return <div>failed to load</div>
   if (isLoading) return <div>loading...</div>
@@ -23,6 +22,7 @@ function App({endpoint_url}) {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full mb-8">
         {data && data.data.users
           .toSorted(byLastname)
+          .slice(0, cardsToShow)
           .map((user) => <Card key={user.id} {...user}/>)
         }
         
