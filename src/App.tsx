@@ -13,7 +13,6 @@ const LOAD_IMMEDIATELY = 12
 
 function App({endpoint_url}) {
   const [imgsLoaded, setImgsLoaded] = useState(0);
-  //const [loadingMore, setloadingMore] = useState(true);
   const { data, error, isLoading } = useSWR<Response>(endpoint_url, fetcher)
   
   if (error) return <div>failed to load</div>
