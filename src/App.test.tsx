@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import '@testing-library/jest-dom';
@@ -62,4 +63,19 @@ test('loads and displays first 2 users', async () => {
   await screen.findByText('Norton Berwick')
   
   expect(screen.getByText('Rouvin Gatfield')).toBeInTheDocument()
+  
+  const viewmoreElements = screen.getAllByText(/view more/i);
+  expect(viewmoreElements.length).toBe(2);
+})
+
+test('loads users - no email - click first view more - email', async () => {
+  render(<App endpoint_url="/users" />)
+
+  const viewmoreElements = await screen.getAllByText(/view more/i)
+  
+  expect(screen.queryByText(/nberwick0@liveinternet.ru/i)).not.toBeInTheDocument();
+  
+  await userEvent.click(viewmoreElements[0]);
+  
+  expect(screen.getByText(/nberwick0@liveinternet.ru/i)).toBeInTheDocument();
 })
