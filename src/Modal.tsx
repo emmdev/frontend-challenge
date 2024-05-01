@@ -53,7 +53,7 @@ const Body = ({firstname, lastname, avatar, role, join_date, description, email}
   url.searchParams.set('bgset', 'bg1');
   return (
     <>
-      <img src={url.toString()} alt={fullname} width={200} height={200} />
+      <img className="mx-auto" src={url.toString()} alt={fullname} width={200} height={200} />
       <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
         <strong>Role:</strong> {role} &nbsp;&nbsp; <strong>Joined:</strong> {join_date} &nbsp;&nbsp; <strong>Email:</strong> <a href={"mailto:"+email}>{email}</a>
       </p>
