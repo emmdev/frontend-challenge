@@ -43,9 +43,12 @@ const server = setupServer(
       ctx.json(raw_data),
     )
   }),
+  rest.get('/users123', (req, res, ctx) => {
+    return res.networkError('Failed to connect')
+  }),
 )
 
-beforeAll(() => server.listen({onUnhandledRequest: 'bypass'}))
+beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
