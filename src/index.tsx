@@ -4,12 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { ENDPOINT_URL } from './constants';
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App endpoint_url="https://9e06da9a-97cf-4701-adfc-9b9a5713bbb9.mock.pstmn.io/users" />
+    <App endpoint_url={ENDPOINT_URL} />
   </React.StrictMode>
 );
 

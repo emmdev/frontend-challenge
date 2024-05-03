@@ -1,41 +1,48 @@
 import React, { useState } from 'react';
 import useSWR from 'swr';
+import ResponsivePagination from 'react-responsive-pagination';
+import 'react-responsive-pagination/themes/classic.css';
 
+import { CARDS_PER_PAGE } from './constants'
+import { EndpointResponse } from './interfaces'
 import { Card } from './Card'
-import { Response } from './interfaces'
-
 import './App.css';
 
 
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 const byLastname = (a, b) => a.lastname.localeCompare(b.lastname);
-const LOAD_IMMEDIATELY = 12
 
-function App({endpoint_url}) {
-  const [imgsLoaded, setImgsLoaded] = useState(0);
-  const { data, error, isLoading } = useSWR<Response>(endpoint_url, fetcher)
+interface AppProps {
+  endpoint_url: string
+}
+
+function App({endpoint_url}: AppProps) {
+  const { data, error, isLoading } = useSWR<EndpointResponse>(endpoint_url, fetcher)
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = data? Math.ceil(data.data.users.length/CARDS_PER_PAGE): 0;
   
   if (error) return <div>failed to load</div>
   if (isLoading) return <div>loading...</div>
   
-  const onImgLoad = () => {
-    setImgsLoaded((imgsLoaded) => imgsLoaded + 1);
-  };
-  
   return (
-    <div className="p-10 bg-gray-50">
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full mb-8">
-        {data && data.data.users
-          .toSorted(byLastname)
-          .slice(0, imgsLoaded >= LOAD_IMMEDIATELY? -1: LOAD_IMMEDIATELY)
-          .map((user, i) => <Card key={user.id} user={user} onImgLoad={i < LOAD_IMMEDIATELY? onImgLoad: null} />)
-        }
-        
+    <>
+      <ResponsivePagination
+        current={currentPage}
+        total={totalPages}
+        onPageChange={setCurrentPage}
+      />
+      <div className="p-10 bg-gray-50">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full mb-8">
+          {data && data.data.users
+            .toSorted(byLastname)
+            .slice((currentPage-1)*CARDS_PER_PAGE, currentPage*CARDS_PER_PAGE)
+            .map((user, i) => <Card key={user.id} user={user} />)
+          }
+          
+        </div>
       </div>
-      {(data && imgsLoaded < LOAD_IMMEDIATELY)?
-      <div className="fixed bottom-4 right-4 text-2xl font-bold bg-white" >Loading more...</div>
-      :null}
-    </div>
+    </>
   );
 }
 

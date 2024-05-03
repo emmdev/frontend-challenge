@@ -1,11 +1,11 @@
 import React from 'react';
 import { User } from './interfaces'
 
-interface IButtonProps {
+interface ButtonProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const ViewMoreButton = ({setShowModal}: IButtonProps) => (
+const ViewMoreButton = ({setShowModal}: ButtonProps) => (
   <button
     className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
     type="button"
@@ -15,7 +15,7 @@ const ViewMoreButton = ({setShowModal}: IButtonProps) => (
   </button>
 )
 
-const TopRightXButton = ({setShowModal}: IButtonProps) => (
+const TopRightXButton = ({setShowModal}: ButtonProps) => (
   <button
     className="p-1 ml-auto bg-transparent border-0 text-black opacity-80 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
     onClick={() => setShowModal(false)}
@@ -26,7 +26,7 @@ const TopRightXButton = ({setShowModal}: IButtonProps) => (
   </button>
 )
 
-const CloseButton = ({setShowModal}: IButtonProps) => (
+const CloseButton = ({setShowModal}: ButtonProps) => (
   <button
     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
     type="button"
@@ -36,7 +36,7 @@ const CloseButton = ({setShowModal}: IButtonProps) => (
   </button>
 )
 
-interface IBodyProps {
+interface BodyProps {
   firstname: string;
   lastname: string;
   avatar: string;
@@ -46,7 +46,7 @@ interface IBodyProps {
   email: string;
 }
 
-const Body = ({firstname, lastname, avatar, role, join_date, description, email}: IBodyProps) => {
+const Body = ({firstname, lastname, avatar, role, join_date, description, email}: BodyProps) => {
   const fullname = firstname + ' ' + lastname;
   const url = new URL(avatar);
   url.searchParams.set('size', '200x200');

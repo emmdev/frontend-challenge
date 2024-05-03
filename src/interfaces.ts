@@ -1,5 +1,5 @@
 
-export interface Response {
+export interface EndpointResponse {
   data: {
     users: User[];
   };
