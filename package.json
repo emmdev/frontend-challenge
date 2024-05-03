@@ -19,6 +19,11 @@
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!react-responsive-pagination/.*)"
+    ]
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -48,6 +53,7 @@
     "@neojp/tailwindcss-line-clamp-utilities": "^1.0.1",
     "@types/react-lazy-load-image-component": "^1.6.4",
     "msw": "^1.3.1",
+    "resize-observer-polyfill": "^1.5.1",
     "tailwindcss": "^3.4.3"
   }
 }

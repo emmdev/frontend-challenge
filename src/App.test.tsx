@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import '@testing-library/jest-dom';
+import ResizeObserver from 'resize-observer-polyfill'; // required by <ResponsivePagination />
 
 import App from './App';
 
@@ -48,7 +49,10 @@ const server = setupServer(
   }),
 )
 
-beforeAll(() => server.listen())
+beforeAll(() => {
+  window.ResizeObserver = ResizeObserver
+  server.listen()
+})
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
